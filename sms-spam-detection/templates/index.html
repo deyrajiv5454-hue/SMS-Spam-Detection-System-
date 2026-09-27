@@ -1,0 +1,179 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<style>
+  body {
+    background: linear-gradient(135deg, #0f172a, #1e3a8a, #312e81);
+    background-size: 300% 300%;
+    animation: gradient 10s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .main-card {
+    max-width: 850px;
+    margin: 60px auto;
+    padding: 40px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, .12);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(252, 245, 245, 0.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+    color: white;
+  }
+
+  .title {
+    font-size: 38px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #d1d5db;
+    margin-bottom: 30px;
+  }
+
+  textarea {
+    width: 93%;
+    height: 180px;
+    border: none;
+    outline: none;
+    border-radius: 18px;
+    padding: 18px;
+    font-size: 17px;
+    resize: none;
+    background: rgba(255, 255, 255, .15);
+    color: white;
+  }
+
+  textarea::placeholder {
+    color: #ddd;
+  }
+
+  .btn-analyze {
+    width: 100%;
+    margin-top: 25px;
+    padding: 16px;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    cursor: pointer;
+    transition: .3s;
+  }
+
+  .btn-analyze:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, .5);
+  }
+
+  .result {
+    margin-top: 35px;
+    padding: 25px;
+    border-radius: 18px;
+    text-align: center;
+    animation: fade .5s;
+  }
+
+  .spam {
+    background: #dc2626;
+  }
+
+  .safe {
+    background: #16a34a;
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .icon {
+    font-size: 70px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+</style>
+
+<div class="main-card">
+
+  <div class="icon">📩</div>
+
+  <div class="title">
+    AI SMS Spam Detector
+  </div>
+
+  <div class="subtitle">
+    Detect Spam Messages using Machine Learning in seconds.
+  </div>
+
+  <form method="POST">
+
+    <textarea name="message" placeholder="Paste or type your SMS here..." required>{{message}}</textarea>
+
+    <button class="btn-analyze">
+      🔍 Analyze Message
+    </button>
+
+  </form>
+
+  {% if prediction %}
+
+  {% if prediction=="SPAM" %}
+
+  <div class="result spam">
+
+    <h2>🚨 Spam Detected</h2>
+
+    <h4>This message looks suspicious.</h4>
+
+    <p>
+      Avoid clicking links or sharing personal information.
+    </p>
+
+  </div>
+
+  {% else %}
+
+  <div class="result safe">
+
+    <h2>✅ Safe Message</h2>
+
+    <h4>No Spam Detected</h4>
+
+    <p>
+      This SMS appears to be genuine.
+    </p>
+
+  </div>
+
+  {% endif %}
+
+  {% endif %}
+
+</div>
+
+{% endblock %}

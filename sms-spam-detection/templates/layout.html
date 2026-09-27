@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Spam Detector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    nav {
+      margin-bottom: 1px;
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 15px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #00e5ff;
+    }
+
+    nav a:visited {
+      color: white;
+    }
+
+    nav a:active {
+      color: #00e5ff;
+    }
+
+    .flash {
+      color: red;
+      margin-bottom: 10px;
+    }
+
+    .result-spam {
+      color: red;
+      font-size: 24px;
+    }
+
+    .result-safe {
+      color: green;
+      font-size: 24px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('home') }}">Dashboard</a>
+    <a href="{{ url_for('update', id=current_user.id)}}">Update</a>
+    <a href="{{ url_for('delete', id=current_user.id)}}">Delete</a>
+    <a href="{{ url_for('logout') }}">Logout ({{ current_user.username }})</a>
+    {% else %}
+    <a href="{{ url_for('login') }}">Login</a> |
+    <a href="{{ url_for('register') }}">Register</a>
+    {% endif %}
+  </nav>
+
+  <!-- Flash Messages for errors/success -->
+  {% with messages = get_flashed_messages() %} {% if messages %}
+  <div class="flash">
+    {% for message in messages %}
+    <p>⚠️ {{ message }}</p>
+    {% endfor %}
+  </div>
+  {% endif %} {% endwith %} {% block content %}{% endblock %}
+</body>
+
+</html>
